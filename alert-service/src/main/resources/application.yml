@@ -1,0 +1,22 @@
+# 库存预警服务配置（检查库存低于安全库存，生成预警记录）
+server:
+  port: 8023
+spring:
+  application:
+    name: alert-service
+  datasource:
+    # 预警微服务的独立库（WIMS 微服务一库一域，见 sql/wims.sql）
+    url: jdbc:mysql://127.0.0.1:3306/wims_alert?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    # mysql-connector-java 5.x 的驱动类
+    driver-class-name: com.mysql.jdbc.Driver
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8888/eureka

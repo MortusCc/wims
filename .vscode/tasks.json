@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "启动 eureka-service（注册中心 8888）",
+      "type": "shell",
+      "command": "mvn -pl eureka-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 product-service（商品服务 8010）",
+      "type": "shell",
+      "command": "mvn -pl product-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 product-service 实例2（8011，负载均衡用）",
+      "type": "shell",
+      "command": "mvn -pl product-service spring-boot:run '-Dspring-boot.run.arguments=--server.port=8011' '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 product-client（客户端 8018）",
+      "type": "shell",
+      "command": "mvn -pl product-client spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 gateway-service（API 网关 9999）",
+      "type": "shell",
+      "command": "mvn -pl gateway-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 inventory-service（库存服务 8020）",
+      "type": "shell",
+      "command": "mvn -pl inventory-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 inbound-service（入库服务 8021）",
+      "type": "shell",
+      "command": "mvn -pl inbound-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 outbound-service（出库服务 8022）",
+      "type": "shell",
+      "command": "mvn -pl outbound-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 alert-service（预警服务 8023）",
+      "type": "shell",
+      "command": "mvn -pl alert-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "启动 statistics-service（统计服务 8024）",
+      "type": "shell",
+      "command": "mvn -pl statistics-service spring-boot:run '-Dspring-boot.run.jvmArguments=-Xmx512m -Xms128m'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "构建全部模块（打包 jar）",
+      "type": "shell",
+      "command": "mvn clean package -DskipTests",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$maven"]
+    }
+  ]
+}

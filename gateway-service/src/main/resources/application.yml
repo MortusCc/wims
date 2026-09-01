@@ -1,0 +1,35 @@
+# 网关服务配置 —— 指导书 2.7.3.1
+# 网关是外部请求的统一入口：客户端只访问 9999，网关按路由把请求转发给内部微服务
+server:
+  port: 9999
+spring:
+  application:
+    # @artifactId@ 是 Maven 资源过滤占位符，运行时会替换为 pom 中的 artifactId（gateway-service）
+    name: @artifactId@
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 开启以服务 id 去注册中心上获取转发地址
+          enabled: true
+          # 小写 serviceId（自动生成 /serviceId/** 路由时统一小写）
+          lower-case-service-id: true
+      routes:
+        # 手动路由：把 /product/** 的请求转发到 product-client 服务
+        - id: product-client
+          # lb:// 表示使用负载均衡，从 Eureka 取名为 product-client 的服务实例转发
+          uri: lb://product-client
+          filters:
+            # 去掉请求路径中的一级前缀：/product/xxx -> /xxx
+            - StripPrefix=1
+          predicates:
+            # 匹配条件：只有当请求路径以 /product/ 开头时才走这条路由
+            - Path=/product/**
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8888/eureka

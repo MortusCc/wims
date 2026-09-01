@@ -1,0 +1,22 @@
+# 库存统计服务配置（聚合入库/出库/库存生成日报表）
+server:
+  port: 8024
+spring:
+  application:
+    name: statistics-service
+  datasource:
+    # 统计微服务的独立库（WIMS 微服务一库一域，见 sql/wims.sql）
+    url: jdbc:mysql://127.0.0.1:3306/wims_statistics?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    # mysql-connector-java 5.x 的驱动类
+    driver-class-name: com.mysql.jdbc.Driver
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8888/eureka

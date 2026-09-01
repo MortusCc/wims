@@ -1,0 +1,22 @@
+# 库存管理服务配置（库存台账，被其他业务服务 Feign 调用）
+server:
+  port: 8020
+spring:
+  application:
+    name: inventory-service
+  datasource:
+    # 库存微服务的独立库（WIMS 微服务一库一域，见 sql/wims.sql）
+    url: jdbc:mysql://127.0.0.1:3306/wims_inventory?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    # mysql-connector-java 5.x 的驱动类
+    driver-class-name: com.mysql.jdbc.Driver
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8888/eureka

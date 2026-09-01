@@ -1,0 +1,8 @@
+{
+  // 打开该项目时 VSCode 会提示安装这些扩展（在扩展面板搜名字或点弹窗推荐）
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "vmware.vscode-spring-boot-dashboard",
+    "vmware.vscode-boot-dev-pack"
+  ]
+}

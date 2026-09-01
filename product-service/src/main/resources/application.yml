@@ -1,0 +1,23 @@
+# 商品服务（服务提供者）配置 —— 指导书 2.4.3.7
+server:
+  port: 8010
+spring:
+  application:
+    name: product-service
+  datasource:
+    # 商品管理微服务的独立库（WIMS 微服务一库一域，见 sql/wims.sql）
+    url: jdbc:mysql://127.0.0.1:3306/wims_product?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    # mysql-connector-java 5.x 的驱动类（由 spring-boot-dependencies 统一管理版本）
+    driver-class-name: com.mysql.jdbc.Driver
+
+eureka:
+  instance:
+    # 使用 IP 地址注册，而不是主机名
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8888/eureka

@@ -1,0 +1,26 @@
+# 商品服务客户端（服务消费者）配置 —— 指导书 2.4.4.1
+server:
+  port: 8018
+spring:
+  application:
+    name: product-client
+ribbon:
+  # 开启 Ribbon 基于 Eureka 的负载均衡（OpenFeign 封装了 Ribbon）
+  eureka:
+    enable: true
+feign:
+  hystrix:
+    # 在 feign 中开启 hystrix 熔断机制（指导书 2.6.1），超时等参数使用默认值
+    enabled: true
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    # 下面一定写 true：才能从注册中心拉取其他服务信息
+    fetch-registry: true
+    # 缩短拉取注册表/同步间隔，让客户端更快感知服务变化
+    initial-instance-info-replication-interval-seconds: 10
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8888/eureka
