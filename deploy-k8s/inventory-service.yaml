@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+  namespace: stockmgr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: stockmgr
+      app: inventory-service
+  template:
+    metadata:
+      labels:
+        project: stockmgr
+        app: inventory-service
+    spec:
+      containers:
+        - name: inventory-service
+          image: crpi-xltuiqx28nz2hmg1.cn-hangzhou.personal.cr.aliyuncs.com/my-wims/inventory-service:v1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - protocol: TCP
+              containerPort: 8020
+          env:
+            - name: JAVA_OPTS
+              value: "-Xmx1g"
+          resources:
+            requests:
+              cpu: 0.5
+              memory: 256Mi
+            limits:
+              cpu: 1
+              memory: 1Gi
+          readinessProbe:
+            tcpSocket:
+              port: 8020
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8020
+            initialDelaySeconds: 60
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: aliyun-registry

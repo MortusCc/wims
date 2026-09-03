@@ -1,0 +1,6 @@
+# 商品客户端 —— 本地开发配置（指导书 4.3.3）
+# 本地注册中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka

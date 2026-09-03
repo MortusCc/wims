@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: product-client
+  # 激活 profile:打包时用 -Dp.env=dev(本地)或 -Dp.env=k8s(集群)切换
+  profiles:
+    active: ${p.env}
 ribbon:
   # 开启 Ribbon 基于 Eureka 的负载均衡（OpenFeign 封装了 Ribbon）
   eureka:
@@ -22,5 +25,3 @@ eureka:
     # 缩短拉取注册表/同步间隔，让客户端更快感知服务变化
     initial-instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 5
-    service-url:
-      defaultZone: http://localhost:8888/eureka

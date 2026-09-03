@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outbound-service
+  namespace: stockmgr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: stockmgr
+      app: outbound-service
+  template:
+    metadata:
+      labels:
+        project: stockmgr
+        app: outbound-service
+    spec:
+      containers:
+        - name: outbound-service
+          image: crpi-xltuiqx28nz2hmg1.cn-hangzhou.personal.cr.aliyuncs.com/my-wims/outbound-service:v1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - protocol: TCP
+              containerPort: 8022
+          env:
+            - name: JAVA_OPTS
+              value: "-Xmx1g"
+          resources:
+            requests:
+              cpu: 0.5
+              memory: 256Mi
+            limits:
+              cpu: 1
+              memory: 1Gi
+          readinessProbe:
+            tcpSocket:
+              port: 8022
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8022
+            initialDelaySeconds: 60
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: aliyun-registry

@@ -4,19 +4,12 @@ server:
 spring:
   application:
     name: inbound-service
-  datasource:
-    # 入库微服务的独立库（WIMS 微服务一库一域，见 sql/wims.sql）
-    url: jdbc:mysql://127.0.0.1:3306/wims_inbound?characterEncoding=utf-8&useSSL=false
-    username: root
-    password: root
-    # mysql-connector-java 5.x 的驱动类
-    driver-class-name: com.mysql.jdbc.Driver
-
+  # 激活 profile:打包时用 -Dp.env=dev(本地)或 -Dp.env=k8s(集群)切换
+  profiles:
+    active: ${p.env}
 eureka:
   instance:
     prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8888/eureka

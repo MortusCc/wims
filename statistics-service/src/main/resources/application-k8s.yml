@@ -1,0 +1,11 @@
+# 统计服务 —— 集群运行配置（指导书 4.3.3）
+spring:
+  datasource:
+    url: jdbc:mysql://mysql.default:3306/wims_statistics?characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-service.stockmgr.svc.cluster.local:8888/eureka

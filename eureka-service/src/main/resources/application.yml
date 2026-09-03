@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: eureka-server
+  # 激活 profile:打包时用 -Dp.env=dev(本地)或 -Dp.env=k8s(集群)切换
+  profiles:
+    active: ${p.env}
 eureka:
   instance:
     hostname: 127.0.0.1
@@ -18,8 +21,6 @@ eureka:
     use-read-only-response-cache: false
     renewal-percent-threshold: 0.49
   client:
-    register-with-eureka: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-    # 注册中心自身不需要从别处拉取注册表
+    # 注册中心自身不注册也不拉取（指导书 2.1.3.1:单一注册中心本身不需要注册）
+    register-with-eureka: false
     fetch-registry: false

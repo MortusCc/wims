@@ -6,6 +6,9 @@ spring:
   application:
     # @artifactId@ 是 Maven 资源过滤占位符，运行时会替换为 pom 中的 artifactId（gateway-service）
     name: @artifactId@
+  # 激活 profile:打包时用 -Dp.env=dev(本地)或 -Dp.env=k8s(集群)切换
+  profiles:
+    active: ${p.env}
   cloud:
     gateway:
       discovery:
@@ -31,5 +34,3 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
-    service-url:
-      defaultZone: http://127.0.0.1:8888/eureka
