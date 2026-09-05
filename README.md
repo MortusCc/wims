@@ -104,7 +104,7 @@ curl "http://localhost:8020/stock/list"                          # 库存台账
 
 ## 部署(Kubernetes)
 
-**前置**:镜像推送到阿里云个人版仓库(`crpi-xltuiqx28nz2hmg1.cn-hangzhou.personal.cr.aliyuncs.com/my-wims`),集群内已创建命名空间 `stockmgr` 与拉取凭据 secret `aliyun-registry`。
+**前置**:镜像需推送到你自建的私有容器镜像仓库(本项目使用阿里云个人版 `cr.aliyuncs.com` 的 `my-wims` 命名空间),集群内已创建命名空间 `stockmgr` 与拉取凭据 secret `aliyun-registry`。
 
 ```bash
 # 手动方式:构建并推送全部镜像后,替换版本号再应用清单
