@@ -86,7 +86,12 @@ pipeline {
                             // 将 yaml 中的镜像版本号替换为本轮构建版本(新 tag 避免缓存坑)
                             sh "sed -i 's|:v1\\.1|:${version}|g' *.yaml"
                             sh 'kubectl apply -f .'
-                            sh 'kubectl rollout status deployment -n stockmgr --timeout=120s'
+                            script {
+                                // 逐个等待全部 Deployment 滚动更新完成(不带资源名会报错)
+                                for (service in service_list.split()) {
+                                    sh "kubectl rollout status deployment/${service} -n stockmgr --timeout=120s"
+                                }
+                            }
                         }
                     }
                 }
