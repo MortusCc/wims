@@ -81,7 +81,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aliyun-registry-credentials',
                         passwordVariable: 'ALIYUN_PASSWORD',
                         usernameVariable: 'ALIYUN_USERNAME')]) {
-                    sh "nerdctl login --username=$ALIYUN_USERNAME --password=$ALIYUN_PASSWORD ${docker_registry}"
+                    // 单引号字符串:敏感变量由 shell 从作业环境变量展开,不进入 Groovy 字符串(消除 Jenkins 敏感变量插值告警)
+                    sh 'nerdctl login --username="$ALIYUN_USERNAME" --password="$ALIYUN_PASSWORD" "$docker_registry"'
                     script {
                         for (service in service_list.split()) {
                             sh "nerdctl push ${docker_registry}/${repository}/${service}:${version}"
