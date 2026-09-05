@@ -42,9 +42,12 @@ const loadAll = async () => {
 
 // 按 ID 单条查询(网关鉴权通过后,Feign 调用 product-service)
 const doSearch = async () => {
-  if (!searchId.value) return loadAll()
+  const id = String(searchId.value).trim()
+  if (!id) return loadAll()
+  // 后端接口参数是 Long:非数字会触发 Spring 派生 400,提前拦截
+  if (!/^\d+$/.test(id)) return ElMessage.warning('请输入数字商品 ID')
   try {
-    const res = await findByProductId(searchId.value)
+    const res = await findByProductId(id)
     rows.value = res.data ? [res.data] : []
     if (!res.data) ElMessage.warning('未查询到该商品')
   } catch (e) {
