@@ -6,3 +6,5 @@ Dockerfile* text eol=lf
 *.yml text eol=lf
 # Jenkins 流水线脚本强制 LF
 Jenkinsfile text eol=lf
+# 前端 nginx 配置文件强制 LF(随 web 容器进 Linux)
+*.conf text eol=lf

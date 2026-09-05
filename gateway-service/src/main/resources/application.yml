@@ -28,6 +28,28 @@ spring:
           predicates:
             # 匹配条件：只有当请求路径以 /product/ 开头时才走这条路由
             - Path=/product/**
+        # —— 以下 5 条路由为第 7 章前端(选做)新增 ——
+        # 后端控制器本身已带 /stock /inbound /outbound /alert /statistics 前缀，因此不做 StripPrefix，路径原样转发
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/stock/**
+        - id: inbound-service
+          uri: lb://inbound-service
+          predicates:
+            - Path=/inbound/**
+        - id: outbound-service
+          uri: lb://outbound-service
+          predicates:
+            - Path=/outbound/**
+        - id: alert-service
+          uri: lb://alert-service
+          predicates:
+            - Path=/alert/**
+        - id: statistics-service
+          uri: lb://statistics-service
+          predicates:
+            - Path=/statistics/**
 eureka:
   instance:
     prefer-ip-address: true

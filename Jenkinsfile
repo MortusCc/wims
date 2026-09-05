@@ -11,6 +11,7 @@ pipeline {
         booleanParam(name: 'Checkout', defaultValue: true, description: '拉取代码')
         booleanParam(name: 'Build', defaultValue: true, description: '生成jar')
         booleanParam(name: 'BuildImages', defaultValue: true, description: '生成镜像')
+        booleanParam(name: 'BuildWeb', defaultValue: true, description: '生成前端镜像(第7章选做)')
         booleanParam(name: 'Pushimage', defaultValue: true, description: '推送镜像')
         booleanParam(name: 'Deploy', defaultValue: true, description: '部署服务')
     }
@@ -57,6 +58,21 @@ pipeline {
                 }
             }
         }
+        stage("BuildWeb") {
+            when {
+                expression { params.BuildWeb == true }
+            }
+            steps {
+                script {
+                    def work_dir = pwd()
+                    dir("$work_dir/wims-web") {
+                        def image_name = "${docker_registry}/${repository}/web:${version}"
+                        echo "${image_name}"
+                        sh "nerdctl build -f Dockerfile -t ${image_name} ."
+                    }
+                }
+            }
+        }
         stage("Pushimage") {
             when {
                 expression { params.Pushimage == true }
@@ -70,6 +86,8 @@ pipeline {
                         for (service in service_list.split()) {
                             sh "nerdctl push ${docker_registry}/${repository}/${service}:${version}"
                         }
+                        // 第 7 章选做:前端镜像一并推送
+                        sh "nerdctl push ${docker_registry}/${repository}/web:${version}"
                     }
                 }
             }
