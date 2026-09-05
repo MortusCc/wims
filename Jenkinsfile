@@ -87,9 +87,12 @@ pipeline {
                             sh "sed -i 's|:v1\\.1|:${version}|g' *.yaml"
                             sh 'kubectl apply -f .'
                             script {
-                                // 逐个等待全部 Deployment 滚动更新完成(不带资源名会报错)
-                                for (service in service_list.split()) {
-                                    sh "kubectl rollout status deployment/${service} -n stockmgr --timeout=120s"
+                                // 从集群动态获取 Deployment 列表再逐个等待滚动完成,
+                                // 不能硬编码名字:集群中 Eureka 的 Deployment 名为 eureka-deployment
+                                def deps = sh(returnStdout: true, script: 'kubectl get deployment -n stockmgr -o name').trim()
+                                for (dep in deps.split('\n')) {
+                                    def depName = dep.tokenize('/')[1]
+                                    sh "kubectl rollout status deployment/${depName} -n stockmgr --timeout=120s"
                                 }
                             }
                         }
