@@ -43,5 +43,6 @@ replay_pid*.log
 gateway-tree.txt
 # IDE 本地配置（由各人自己生成，不入库）
 .idea/
+.vscode/
 ### WIMS 部署镜像构建产物（大体积二进制，不入库）
 deploy-k8s/images/*.jar
