@@ -3,8 +3,8 @@
 FROM docker.m.daocloud.io/library/node:20-alpine AS build
 WORKDIR /app
 # 镜像内 npm 源切换到 npmmirror,避免构建超时
-ENV NPM_CONFIG_REGISTRY=https://registry.npmmirror.com \
-    NODE_ENV=production
+# 注意:不能设置 NODE_ENV=production,npm 会据此跳过 devDependencies(vite)导致构建失败
+ENV NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
 COPY package.json ./
 RUN npm install --ignore-scripts
 COPY . .
