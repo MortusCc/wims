@@ -110,7 +110,8 @@ pipeline {
                                 def deps = sh(returnStdout: true, script: 'kubectl get deployment -n stockmgr -o name').trim()
                                 for (dep in deps.split('\n')) {
                                     def depName = dep.tokenize('/')[1]
-                                    sh "kubectl rollout status deployment/${depName} -n stockmgr --timeout=120s"
+                                    // 超时放宽到 300s:节点首次拉取新 tag 镜像 + Pod 启动排队可能超过 120s(踩坑见 Build #10)
+                                    sh "kubectl rollout status deployment/${depName} -n stockmgr --timeout=300s"
                                 }
                             }
                         }
