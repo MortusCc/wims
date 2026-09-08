@@ -2,6 +2,7 @@ package org.software.alertservice.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.software.alertservice.dto.Result;
 import org.software.alertservice.mapper.AlertRecordMapper;
 import org.software.alertservice.po.AlertRecord;
 import org.software.alertservice.service.AlertService;
@@ -46,11 +47,12 @@ public class AlertController {
 
     /**
      * 处理预警：将指定预警标记为已处理（如：完成补货后处理对应预警）
+     * 契约与其它服务一致：Result{success,message}，前端按 success/message 统一提示
      */
     @GetMapping("/alert/deal/{id}")
-    public String deal(@PathVariable("id") Long id) {
+    public Result deal(@PathVariable("id") Long id) {
         int rows = alertRecordMapper.updateStatus(id);
         log.info("-------------OK   /alert/deal/{id}--------------------");
-        return rows > 0 ? "预警已处理" : "预警不存在";
+        return rows > 0 ? new Result(true, "预警已处理") : new Result(false, "预警不存在");
     }
 }

@@ -73,6 +73,8 @@ const doDeal = async (row) => {
   await ElMessageBox.confirm(`确认处理商品「${row.productName}」的预警?`, '提示', { type: 'warning' })
   try {
     const res = await dealAlert(row.id)
+    // 后端契约 Result{success,message}(与其它服务统一):false 时如实提示,不再静默显示成功
+    if (res.data?.success === false) return ElMessage.error(res.data.message || '处理失败')
     ElMessage.success(res.data?.message || '处理成功')
     load()
   } catch (e) {
