@@ -14,7 +14,8 @@
         <el-table-column prop="productName" label="商品名称" min-width="130" />
         <el-table-column prop="alertType" label="预警类型" width="110">
           <template #default="{ row }">
-            <el-tag :type="row.alertType === 'LOW_STOCK' ? 'danger' : 'warning'" size="small">{{ row.alertType }}</el-tag>
+            <!-- 契约:后端 alert_type 取值为 'LOW'(库存不足) / 'HIGH'(库存过剩),见 sql/wims.sql -->
+            <el-tag :type="row.alertType === 'LOW' ? 'danger' : 'warning'" size="small">{{ row.alertType }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="curQuantity" label="当前库存" width="100" />
@@ -22,12 +23,13 @@
         <el-table-column prop="alertTime" label="预警时间" min-width="170" :formatter="fmtTime" />
         <el-table-column prop="status" label="状态" width="110">
           <template #default="{ row }">
-            <el-badge :value="row.status === 'HANDLED' ? '处理' : '待处理'" :type="row.status === 'HANDLED' ? 'success' : 'danger'" />
+            <!-- 契约:后端 status 为数字 0=未处理 1=已处理,见 AlertRecord.java / sql/wims.sql -->
+            <el-badge :value="row.status === 1 ? '处理' : '待处理'" :type="row.status === 1 ? 'success' : 'danger'" />
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120">
           <template #default="{ row }">
-            <el-button v-if="row.status !== 'HANDLED'" size="small" type="success" @click="doDeal(row)">处理</el-button>
+            <el-button v-if="row.status !== 1" size="small" type="success" @click="doDeal(row)">处理</el-button>
           </template>
         </el-table-column>
       </el-table>
